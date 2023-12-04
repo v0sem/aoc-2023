@@ -1,2 +1,0 @@
-(defvar *input*
-  (uiop:read-file-string "inputs/day3.txt"))
