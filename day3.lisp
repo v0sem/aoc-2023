@@ -65,3 +65,28 @@
   (loop for (x y) in (get-all-pos)
 	when (not (is-not-part x y))
 	  collect (get-number x y))))
+
+(defun get-gears ()
+  (loop for x from 0 to 139
+	append (loop for y from 0 to 139
+		     when (char= #\* (get-char x y))
+		       collect (list x y))))
+
+(defun get-whole-number (x y)
+  (if (get-number x y)
+      (loop for i from 2 downto 0
+	    when (get-number x (- y i))
+	      maximize (get-number x (- y i)))
+      NIL))
+
+(defun get-numbers-around-gear (x y)
+  (remove-duplicates
+  (loop for (x1 y1) in (clean-adj x y 1)
+	when (get-whole-number x1 y1)
+	  collect (get-whole-number x1 y1))))
+
+(defun day3-2 ()
+  (apply #'+
+  (loop for (gearx geary) in (get-gears)
+	when (= (length (get-numbers-around-gear gearx geary)) 2)
+	  collect (apply #'* (get-numbers-around-gear gearx geary)))))
