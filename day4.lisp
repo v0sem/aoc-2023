@@ -24,3 +24,4 @@
   (loop for gid from 1 to 209
 	when (not (= 0 (win-count (get-winning gid) (get-numbers gid))))
 	collect (expt 2 (- (win-count (get-winning gid) (get-numbers gid)) 1)))))
+
