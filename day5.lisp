@@ -1,6 +1,9 @@
 (defvar *input*
   (uiop:read-file-lines "inputs/day5.txt"))
 
+(defvar *input2*
+  (uiop:read-file-lines "inputs/test.txt"))
+
 (defun get-range-as-list (num range)
   (loop for x from num to (- (+ num range) 1)
 	collect x))
@@ -74,9 +77,18 @@
       (f2l (parse-map num (soil-to-fert)))
       (f2l num)))
 
+(defun seed2loc(num)
+  (if (parse-map num (seed-to-soil))
+      (s2l (parse-map num (seed-to-soil)))
+      (s2l num)))
+
 (defun get-seeds ()
   (mapcar #'parse-integer (uiop:split-string (subseq (car *input*) 7))))
 
 (defun day5-1 ()
   (loop for seed in (get-seeds)
-	minimize (s2l seed)))
+	minimize (seed2loc seed)))
+
+(defun get-seeds-for-real ()
+  (loop for seed from 0 to 9
+	append (get-range-as-list (nth (* 2 seed) (get-seeds)) (nth (+ (* 2 seed) 1) (get-seeds)))))
