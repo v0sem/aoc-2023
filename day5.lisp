@@ -91,4 +91,16 @@
 
 (defun get-seeds-for-real ()
   (loop for seed from 0 to 9
-	append (get-range-as-list (nth (* 2 seed) (get-seeds)) (nth (+ (* 2 seed) 1) (get-seeds)))))
+	collect (list (nth (* 2 seed) (get-seeds)) (nth (+ (* 2 seed) 1) (get-seeds)))))
+
+(defun sensible-range (weirdo-range)
+  (list (car weirdo-range) (+ (- (cadr weirdo-range) 1) (car weirdo-range))))
+
+(defun get-range-from-range (range map)
+  (list (+ (car map) (- (car range) (cadr map))) (max )))
+
+(defun get-maps (range maps)
+  (loop for map in maps
+	when (and (> (car (sensible-range range)) (car (sensible-range (list (cadr map) (caddr map)))))
+		  (< (car (sensible-range range)) (cadr (sensible-range (list (cadr map) (caddr map))))))
+	collect ))
